@@ -1,0 +1,36 @@
+<!Doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <title>Sign-in</title>
+    </head>
+
+    <body>
+        <h1><a href="{{url_for('login')}}" id="home-button"> MU:DA </a></h1>
+        <h2>Sign-in</h2>
+        {% with messages = get_flashed_messages() %}  <!--flash 메세지를 messages라는 변수에 저장-->
+        {% if messages %}  
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('sign_up') }}">
+            <label for="email">email을 입력해주세요</label>
+            <input type="text" id="email" name="email" required autocomplete="off">
+
+            <label for="name">사용자명_ID를 입력해주세요</label>
+            <input type="text" id="name" name="name" required autocomplete="off">
+    
+            <label for="pw">비밀번호를 입력해주세요</label>
+            <input type="text" id="pw" name="pw" required autocomplete="off">
+    
+            <button type="submit">회원가입</button>
+        </form>
+
+    </body>
+</html>

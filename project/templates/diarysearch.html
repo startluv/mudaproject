@@ -1,0 +1,65 @@
+<!Doctype html>
+<html lang = "ko">
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <meta charset = "UTF-8">  <!--인코딩 설정-->
+        <meta http-equiv="X-UA Compatiable", content="IE=edge"> <!--#internet exlpore의 렌더링 엔진 버전 최신화-->
+        <meta name="viewport", content="width=device-width, initial-scale=1"> <!--#모바일 view 설정-->
+        <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+        <title>MU:DA</title>
+    </head>
+    <body>
+        <h1><a href="{{url_for('dashboard')}}" id="home-button"> MU:DA </a></h1>
+        <h2> [{{searchkey}}] 검색 결과 </h2> 
+        <form method="POST", action="{{url_for('search_diary')}}">
+            <label for="searchkey">다시 검색하기</label>
+            <input type="text" name="searchkey" value="{{searchkey}}">
+            <button type="submit"> 검색 </button>
+            </form> 
+        
+        {% for diary in selectdiary %}
+        <div id="diary_{{diary.id}}" class="container"> 
+            <p>
+             {{diary.date}} 
+             <br><br>
+             <img src="{{url_for('static', filename=diary.emotionimage_path)}}" alt="emotionimage" class="emotionimage"> {{diary.emotiontext}} 
+             <br><br>
+             {{diary.content}}  
+             <br><br>
+             <button class="delete-button" data-diary-id="{{diary.id}}">삭제</button>
+             <a href = "{{url_for('update_diary_by_id', id=diary.id)}} "class="update-button">수정</a>   
+             <br>
+             
+             
+         </p>     
+         </div>
+            {% endfor %}
+        <script>
+            
+            document.querySelectorAll('.delete-button').forEach(function(button) {
+                button.addEventListener('click',function(){
+                    var diaryId = this.getAttribute('data-diary-id');
+                    fetch('/delete_diary/'+diaryId,{
+                        method : 'POST',
+                    })
+                    .then(response => response.json() )
+                    .then(data => {
+                        console.log(data.message);
+                        if (data.message === 'Success'){
+                            location.reload();
+                        }
+
+                    }) 
+
+
+                })
+            })
+            
+        </script>
+
+        
+        
+
+    </body>
+</html>

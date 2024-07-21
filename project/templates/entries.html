@@ -1,0 +1,94 @@
+<!Doctype html>
+<html lang = "ko">
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <meta charset = "UTF-8">  <!--인코딩 설정-->
+        <meta http-equiv="X-UA Compatiable", content="IE=edge"> <!--#internet exlpore의 렌더링 엔진 버전 최신화-->
+        <meta name="viewport", content="width=device-width, initial-scale=1"> <!--#모바일 view 설정-->
+        <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    
+        <title>MU:DA</title>
+
+    </head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function scrollToAnchor(anchor) {
+                var targetElement = document.getElementById(anchor);
+                if (targetElement) {
+                    targetElement.scrollIntoView();
+                }
+            }
+    
+            var anchor = "{{ anchor }}";
+            if (anchor) {
+                // 페이지 로드 시 앵커로 스크롤
+                scrollToAnchor("diary_"+anchor);
+            }
+    
+            // 캘린더 이벤트 클릭 시 앵커를 추가하고 해당 위치로 스크롤
+            document.querySelectorAll('#calendar .fc-event').forEach(function(eventElement) {
+                eventElement.addEventListener('click', function() {
+                    var diaryId = this.getAttribute('data-diary-id');
+                    window.location.href = "{{url_for('entries')}}" + "?anchor=" + diaryId;
+                    scrollToAnchor("diary_"+diaryId);
+                });
+            });
+        });
+    </script>
+    <body>
+        <h1><a href="{{url_for('dashboard')}}" id="home-button"> MU:DA </a></h1>
+        <h2>나의 일기들</h2>
+        <form method="POST", action="{{url_for('search_diary')}}">
+        <label for="searchkey">일기 검색하기</label>
+        <input type="text" name="searchkey" autocomplete="off">
+        <button type="submit"> 검색 </button>
+        </form>   
+
+            {% for diary in diaries|reverse %}
+                <div id="diary_{{diary.id}}" class="container"> 
+                   <p>
+                    {{diary.date}} 
+                    <br><br>
+                    <img src="{{url_for('static', filename=diary.emotionimage_path)}}" alt="emotionimage" class="emotionimage"> {{diary.emotiontext}} 
+                    <br><br>
+                    {{diary.content}}  
+                    <br><br>
+                    <a href = "{{diary.music}}" target="_blank">
+                        <img class="musicplayer" src="./static/musicplayer.png"/ alt="musicplayer"> </a>
+        
+                    <br>
+                    <button class="delete-button" data-diary-id="{{diary.id}}">삭제</button>
+                    <a href = "{{url_for('update_diary_by_id', id=diary.id)}} "class="update-button">수정</a>   
+                    <br>
+                    
+                    
+                </p>     
+                </div>
+            {% endfor %}
+
+        <script>
+            document.querySelectorAll('.delete-button').forEach(function(button) {
+                button.addEventListener('click',function(){
+                    var diaryId = this.getAttribute('data-diary-id');
+                    fetch('/delete_diary/'+diaryId,{
+                        method : 'POST',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                        if (data.message === 'Success'){
+                            location.reload();
+                        }
+
+                    }) 
+
+
+                })
+            })
+            
+        </script>
+        
+
+    </body>
+</html>

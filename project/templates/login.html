@@ -1,0 +1,37 @@
+    <!Doctype html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+            <title>Login</title>
+        </head>
+
+        <body>
+            <h1><a href="{{url_for('login')}}" id="home-button">MU:DA</a></h1>
+            <h2>Login</h2>
+            {% with messages = get_flashed_messages() %}  <!--flash 메세지를 messages라는 변수에 저장-->
+            {% if messages %}  
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+            <form method="post" action="{{ url_for('login') }}">
+                <label for="name">Username:</label>
+                <input type="text" id="name" name="name" >
+                <br>
+                <label for="pw">Password:</label>
+                <input type="pw" id="pw" name="pw" required>
+        
+                <button type="submit">Login</button>
+            </form>
+            <div>
+            <h4><a href="{{url_for('sign_in')}}">회원가입하러 가기</a></h4>
+            </div>
+
+
+        </body>
+    </html>

@@ -1,0 +1,105 @@
+<!Doctype html>
+<html lang = "ko">
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <meta charset = "UTF-8">  <!--인코딩 설정-->
+        <meta http-equiv="X-UA Compatiable", content="IE=edge"> <!--#internet exlpore의 렌더링 엔진 버전 최신화-->
+        <meta name="viewport", content="width=device-width, initial-scale=1"> <!--#모바일 view 설정-->
+        <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+        <title>MU:DA</title>
+
+        <style>
+        /* 이미지 스타일링을 위한 CSS */
+        .custom-select {
+            display: inline-block;
+            position: relative;
+        }
+
+        .custom-select select {
+            display: none;
+        }
+
+        .custom-select img {
+            width: 30px; /* 이미지의 크기를 조절할 수 있습니다. */
+            height: 30px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* 스타일을 선택한 이미지에 대해 변경할 수 있습니다. */
+        .custom-select img.selected {
+            border-color: #ff0000; /* 선택된 이미지의 테두리 색상을 변경합니다. */
+        }
+    </style>
+    </head>
+    <body>
+        <h1> <a href="{{url_for('dashboard')}}" id="home-button">MU:DA </a></h1>
+        <div class="container">
+        <h2> {{diary.date}} 일기 수정하기 </h2>
+        <form method="POST", action="{{url_for('update_diary_by_id',id=diary.id)}}">
+
+            <label for="emotiontext"> 오늘의 기분</label>
+            <br>
+            <div class="custom-select">
+                <select name="emotionimage_path" id="emotionimage-select">
+                    <option value="happy.png" >happy</option>
+                    <option value="sad.png" >sad</option>
+                    <option value="best.png" >best</option>
+                    <option value="soso.png" >soso</option>
+                </select>
+                <img src="{{url_for('static',filename='happy.png')}}" alt="happy" class="selected" data-value="happy.png">
+                <img src="{{url_for('static',filename='sad.png')}}" alt="sad" data-value="sad.png">
+                <img src="{{url_for('static',filename='best.png')}}" alt="best" data-value="best.png">
+                <img src="{{url_for('static',filename='soso.png')}}" alt="soso" data-value="soso.png">
+            </div>
+            <input type="text" name="emotiontext" value="{{diary.emotiontext}}" required>
+
+            <br>
+            <label for="content"> 오늘 하루는 어땠어? </label>
+            <br>
+            <textarea name="content" >{{diary.content}}</textarea>
+            <button type="submit"> 수정 완료하기 </button>
+        </div>
+
+
+
+
+        </form>
+        <script>
+            // jQuery를 사용하여 이미지 선택 시 선택된 이미지를 표시합니다.
+            $(document).ready(function() {
+                $(".custom-select img").click(function() {
+                    var selectedValue = $(this).data("value");
+                    $("#emotionimage-select").val(selectedValue);
+    
+                    var emotionText = getEmotionText(selectedValue);
+                    $("input[name='emotiontext']").val(emotionText);
+    
+                    $(".custom-select img").removeClass("selected");
+                    $(this).addClass("selected");
+                });
+            
+    
+            function getEmotionText(selectedValue){
+                switch (selectedValue){
+                    case "happy.png":
+                        return "행복해요";
+                    case "sad.png":
+                        return "슬퍼요";
+                    case "best.png":
+                        return "최고에요";
+                    case "soso.png":
+                        return "그냥 그래요";
+                    default:
+                        return "";
+                }
+            }
+        });
+        </script>
+        
+
+    </body>
+    
+</html>

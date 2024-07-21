@@ -1,0 +1,77 @@
+#home-button:link{color:blueviolet; text-decoration: none;}
+#home-button:visited{color:blueviolet; text-decoration: none;}
+#home-button:hover{color:black; text-decoration: none;}
+#home-button:active{color:black; text-decoration: none;}
+
+.second-button:visited{color:black; text-decoration: none;}
+.second-button:link{color:black; text-decoration: none;}
+.second-button:hover{
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+}
+.second-button{
+    width : 5%;
+    border : 1px solid blueviolet;
+    border-radius: 10px;
+    box-shadow : 1px 2px rgba(0, 0, 0, 0.279);
+    padding : 5px;
+    margin-left : 6px;
+    
+    
+    
+    
+
+}
+
+.caption{
+    
+    font-size : 12px;
+    margin-left : 3px;
+    margin-top : 1px;
+    
+}
+
+textarea{
+    width: 300px;
+    height: 300px;
+    resize: none;
+    white-space: pre-wrap;
+    background-color: cornsilk;
+    
+
+}
+.container{
+    display : flex;
+    flex-direction: column;
+    flex-grow : 1;  
+
+    flex-wrap : wrap;
+    word-wrap :break-word;
+    border-radius: initial;
+    
+    max-width: 500px; /* 최대 폭을 조정할 값으로 설정하세요. */
+    margin-top: 25px; /* 가운데 정렬을 위한 margin 설정 */
+    margin-bottom : 25px;
+    margin-left : 10px;
+    background-color:cornsilk;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='52' ry='52' stroke='black' stroke-width='4' stroke-dasharray='15%2c 15%2c 1' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 52px;
+    padding: 20px;
+
+
+
+}
+
+
+.emotionimage{
+    width: 4%;
+
+}
+
+input[type="text"][name="music"] {
+    color: gray; /* 텍스트 색상을 회색으로 설정 */
+}
+
+.musicplayer{
+    width:10%;
+}

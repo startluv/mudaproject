@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <form action = "methods">
+            <label for="songinfo"> 음악 검색하기</label>
+            <input type="text" id="songinfo" class="whatToSearch" placeholder="검색" autocomplete="off" onkeyup="addMusicList()">
+            <button type="button" onclick="addMusicList()">검색</button>
+        </form>
+        <div class="musicListList">
+            
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(function(){
+            $('.musicList').empty()
+        });
+        function addMusicList(){
+            let musickeyword = $('#songinfo').val();
+            $('.musicList').empty();
+            $.ajax({
+                type : 'GET',
+                url:'https://ws.audioscrobbler.com/2.0/?method=track.search&track='+musickeyword+'&api_key=f99a17d8755e71e1828a9dfa574b3012&format=json',
+                success : function(response){
+                    
+                    let musicList = response["results"]["trackmatches"]["track"];
+                    for (let i=0; i<musicList.length; i++){
+                        let albumTitle = musicList[i]["name"]
+                        let albumArtist = musicList[i]["artist"]
+                        
+                        getMusichtml(albumTitle,albumArtist)
+
+                    }
+                }
+                
+            })
+        }
+        function getMusichtml(title,artist){
+            let musicHtml = `<ul class = "musicList">
+                <li class="title">${title}</li>
+                <li class="artist">${artist}</li>
+            </ul>`
+            
+            $('.musicListList').append(musicHtml)
+        
+
+
+        }
+    </script>
+
+    
+
+</html>
